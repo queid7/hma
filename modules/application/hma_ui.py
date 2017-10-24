@@ -5,41 +5,18 @@ import motion_player as mp
 
 
 class HmaUi(object):
+    DEFAULT_WIDTH = 1600
+    DEFAULT_HEIGHT = 1200
     """
     this class makes ui for main window and connect ui signals to event handlers of main window
     custom event handlers in main window must be implemented
     """
     def setupUi(self, MainWindow: QtWidgets.QMainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1280, 960)
+        MainWindow.resize(HmaUi.DEFAULT_WIDTH, HmaUi.DEFAULT_HEIGHT)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
-        '''
-#        self.main_view = view.MotionView(self.centralwidget)
-        self.main_view = QtWidgets.QWidget(self.centralwidget)
-        self.main_view.setGeometry(QtCore.QRect(0, 0, 960, 720))
-        self.main_view.setMouseTracking(False)
-        self.main_view.setObjectName("main_view")
-
-        self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(0, 720, 960, 16))
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-
-        self.playMotionButton = QtWidgets.QPushButton(self.centralwidget)
-        self.playMotionButton.setGeometry(QtCore.QRect(10, 740, 200, 60))
-        self.playMotionButton.setObjectName("playMotion")
-
-        self.horizontalSlider = QtWidgets.QSlider(self.centralwidget)
-        self.horizontalSlider.setGeometry(QtCore.QRect(0, 800, 960, 22))
-        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider.setMaximum(2000)
-        self.horizontalSlider.setObjectName("horizontalSlider")
-        MainWindow.setCentralWidget(self.centralwidget)
-        '''
 
         # centralwidget
         MainWindow.setCentralWidget(self.centralwidget)
