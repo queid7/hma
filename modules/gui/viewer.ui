@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>960</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QFrame" name="verticalFrame">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="widget_2" native="true">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1111</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>80</y>
+          <width>187</width>
+          <height>57</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>80</y>
+          <width>187</width>
+          <height>57</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QFrame" name="frame">
+       <property name="geometry">
+        <rect>
+         <x>2</x>
+         <y>152</y>
+         <width>1131</width>
+         <height>691</height>
+        </rect>
+       </property>
+       <widget class="QDockWidget" name="dockWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>154</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <widget class="QWidget" name="dockWidgetContents_2"/>
+       </widget>
+       <widget class="QDockWidget" name="dockWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>10</y>
+          <width>154</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <widget class="QWidget" name="dockWidgetContents_3"/>
+       </widget>
+       <widget class="QDockWidget" name="dockWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>10</y>
+          <width>154</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <widget class="QWidget" name="dockWidgetContents_5"/>
+       </widget>
+       <widget class="QDockWidget" name="dockWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>130</y>
+          <width>371</width>
+          <height>461</height>
+         </rect>
+        </property>
+        <property name="mouseTracking">
+         <bool>false</bool>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="floating">
+         <bool>false</bool>
+        </property>
+        <widget class="QWidget" name="dockWidgetContents_6"/>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>47</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="geometry">
+     <rect>
+      <x>787</x>
+      <y>433</y>
+      <width>373</width>
+      <height>354</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <signal>signal1()</signal>
+  <slot>slot1()</slot>
+ </slots>
+</ui>

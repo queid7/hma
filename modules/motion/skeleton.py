@@ -1,0 +1,2 @@
+class HJ():
+    pass

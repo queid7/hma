@@ -1,0 +1,1 @@
+# resource classes for gui application
