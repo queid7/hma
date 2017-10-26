@@ -200,7 +200,14 @@ class JointPosture(Posture):
         self.initialize()
 
     def blend(self, posture, t):
-        raise NotImplementedError
+        blended_posture = JointPosture(self._skeleton)
+        blended_posture.set_root_position(mm.linearInterpol(self._root_position, posture.get_root_position(), t))
+        blended_local_rs = list()
+        for i in range(len(self._local_rs)):
+            blended_local_rs.append(mm.so3_to_se3(mm.slerp(mm.se3_to_so3(self._local_rs[i]),
+                                                           mm.se3_to_so3(posture.get_local_r(i)), t)))
+        blended_posture.set_local_rs(blended_local_rs)
+        return blended_posture
 
 
 class PointPosture(Posture):

@@ -1,4 +1,5 @@
 import sys
+import os
 import typing
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -31,15 +32,44 @@ class HmaWindow(QtWidgets.QMainWindow):
         print("action_open")
 
     def action_import_event(self, checked):
-        print("action_import")
+        print("file dialog")
+        dlg = QtWidgets.QFileDialog()
+        dlg.setFileMode(QtWidgets.QFileDialog.AnyFile)
+        dlg.setNameFilters(["motion files (*.htr)", "motion files (*.bvh)", "all files (*.*)"])
+        dlg.setDirectory("C:/Users/mrl/Research/Motions")
+        if dlg.exec_():
+            file_path = dlg.selectedFiles()
+            ext = os.path.splitext(file_path[0])[1]
+            print("action_import")
+            if ext == ".bvh":
+                joint_motion = bl.read_bvh_file(file_path[0])
+            elif ext == ".htr":
+                joint_motion = hl.read_htr_file(file_path[0])
+            else:
+                print("invalid file extension")
+                return
+            self.hma.add_motion(joint_motion)
+            self.findChild(mv.MotionView, "motion_view").add_renderer(renderer.JointMotionRender(joint_motion))
+
 #        joint_motion = bl.read_bvh_file("../../../../Research/Motions/cmuconvert-daz-01-09/01/01_02.bvh")
 #        joint_motion = bl.read_bvh_file("../../../../Research/Motions/MotionData/Trial001.bvh")
 #        joint_motion = bl.read_bvh_file("../../../../Research/Motions/cmuconvert-max-01-09/01/01_02.bvh", scale = 3)
-        joint_motion = hl.read_htr_file("../../../../Research/Motions/snuh/디딤자료-서울대(조동철선생님)/디딤LT/D-1/16115/trimmed_walk01.htr", 1)
+#        joint_motion = hl.read_htr_file("../../../../Research/Motions/snuh/디딤자료-서울대(조동철선생님)/디딤LT/D-1/16115/trimmed_walk01.htr", 1)
 
-        self.hma.add_motion(joint_motion)
-        self.findChild(mv.MotionView, "motion_view").add_renderer(renderer.JointMotionRender(joint_motion))
+#        self.hma.add_motion(joint_motion)
+#        self.findChild(mv.MotionView, "motion_view").add_renderer(renderer.JointMotionRender(joint_motion))
         print("import success")
+        """
+        posture_list = []
+        for i in range(len(joint_motion)-1):
+            for j in range(10):
+                posture_list.append(joint_motion[(i + 0.1 * j)])
+#            posture_list.append(joint_motion[i].blend(joint_motion[i+1], 0.5))
+        blended_joint_motion = motion.JointMotion(posture_list)
+        self.hma.add_motion(blended_joint_motion)
+        self.findChild(mv.MotionView, "motion_view").add_renderer(renderer.JointMotionRender(blended_joint_motion))
+        print("blending success")
+        """
 
     def action_export_event(self, checked):
         print("action_export")

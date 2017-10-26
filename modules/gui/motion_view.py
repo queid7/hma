@@ -148,10 +148,17 @@ class MotionView(QtWidgets.QOpenGLWidget):
             self._max_frame = 0
 
     def go_to_frame(self, frame):
+        """
         if frame < self._max_frame:
             for r in self._renderers:
                 r.go_to_frame(frame)
             self.update()
+        """
+        # for test
+        for r in self._renderers:
+            if r.get_max_frame() is not None and frame < r.get_max_frame():
+                r.go_to_frame(frame)
+        self.update()
         print(frame)
 
     def set_fps(self, fps):
