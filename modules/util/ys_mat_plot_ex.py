@@ -689,7 +689,7 @@ if __name__ == "__main__":
                 plot.add_data_point('leftFoot.y', frame, joint_motion[frame].get_joint_position_global(l_foot)[1])
                 plot.add_data_point('rightFoot.y', frame, joint_motion[frame].get_joint_position_global(r_foot)[1])
                 plot.update_points()
-            if frame == viewer.get_max_frame():
+            if frame == viewer.get_max_frame:
                 updated[0] = True
 
             if frame == 0:
