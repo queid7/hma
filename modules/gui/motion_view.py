@@ -21,57 +21,42 @@ class MotionView(QtWidgets.QOpenGLWidget):
                  WindowFlags()):
         super(MotionView, self).__init__(parent, flags)
         self._renderers = list()
+        self.base_plane_renderer = None
 
+        # initialize camera
         self.camera = Camera()
+#        self.camera.set_center(mm.seq_to_vec3([0., 200., 2000.]))
+        self.camera.set_center(mm.seq_to_vec3([2000., 0., 200.]))
+        self.camera.set_direction(mm.seq_to_vec3([-1., 0., 0.]))
+        self.camera.set_up(mm.seq_to_vec3([0., 0., 1.]))
+        self.camera.z_near = 10
+        self.camera.z_far = 5000
 
+        # information for frame
         self._max_frame = 0
         self._fps = MotionView.DEFAULT_FPS
         self._spf = int(1000. / self._fps)
 
+        # initialize timer
         self._timer = QtCore.QTimer()
         self._timer.timeout.connect(self._timer_event)
 
+        # temporary data for mouse
         self.last_pos = QtCore.QPoint(0, 0)
 
     def initializeGL(self):
         print("initializeGL")
         GL.glClearColor(0., 0., 0., 1.)
 
-        self.camera.gluPerspective()
-        self.camera.gluLookAt()
-
 #        GL.glShadeModel(GL.GL_SMOOTH)
         GL.glShadeModel(GL.GL_FLAT)
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glEnable(GL.GL_CULL_FACE)
 
-        # for test
-        self.cube = df.make_cube(1, 2, 3)
-        self.test_render()
-
-    def test_render(self):
-
-        # for test
-        # joint_motion = bl.read_bvh_file("../../Research/Motions/cmuconvert-daz-01-09/01/01_02.bvh")
-        # test_r = renderer.JointMotionRender(joint_motion)
-        # self.add_renderer(test_r)
-
-        self.camera.set_center(mm.seq_to_vec3([0., 100., 300.]))
-        self.camera.set_center(mm.seq_to_vec3([0., 100., 1300.]))
-        self.camera.z_near = 10
-        self.camera.z_far = 5000
-
-        r = renderer.JointMotionRender()
-#        self.add_renderer(r)
-        jm = motion.JointMotion()
-        js = motion.Skeleton()
-        js.set_root(motion.JointNode("root", mm.seq_to_vec3([1., 2., 3.])))
-        js.add_node(motion.JointNode("hip", mm.seq_to_vec3([0., 1., 0.])), js.get_root())
-        js.add_node(motion.JointNode("knee", mm.seq_to_vec3([0., 1., 0.])), js.get_node_by_label("hip"))
-        jp = motion.JointPosture(js)
-        jm.append(jp)
-        r.set_joint_motion(jm)
-        print("Tree", jm.get_skeleton())
+        self.base_plane_renderer = renderer.PlaneRenderer(mm.seq_to_vec3([1, 0, 0]), mm.seq_to_vec3([0, 1, 0]),
+                                                          1000, 1000, mm.o_vec3())
+        self.base_plane_renderer.color = (0., 0., 1., .7)
+        self.base_plane_renderer.set_mode(renderer.PlaneRenderer.GRID_MODE)
 
     def paintGL(self):
         print("paintGL")
@@ -79,26 +64,8 @@ class MotionView(QtWidgets.QOpenGLWidget):
         self.camera.gluLookAt()
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glMatrixMode(GL.GL_MODELVIEW)
-        GL.glPushMatrix()
-        GL.glTranslated(3.0, 0., 0.)
-        GL.glBegin(GL.GL_TRIANGLE_STRIP)
-        GL.glColor4f(1., 0., 0., 1.)
-        GL.glVertex3d(-0.5, -0.5, 0.)
-        GL.glVertex3d(0.5, -0.5, 0.)
-        GL.glVertex3d(-0.5, 0.5, 0.)
-        GL.glVertex3d(0.5, 0.5, 0.)
-        GL.glEnd()
-        GL.glPopMatrix()
 
-        GL.glPushMatrix()
-        print("1")
-#        GL.glCallList(self.cube)
-        GL.glTranslated(0, 1., 1.)
-        print("2")
-        GL.glColor4f(0, 1, 0, 1)
-#        GL.glCallList(self.cube)
-        GL.glPopMatrix()
-
+        self.base_plane_renderer.render()
         for _renderer in self._renderers:
             _renderer.render()
 
@@ -175,8 +142,8 @@ class MotionView(QtWidgets.QOpenGLWidget):
 
     def _update_max_frame(self):
         try:
-            self._max_frame = min([len(r.get_joint_motion()) for r in self._renderers
-                                   if r.get_joint_motion() is not None])
+            self._max_frame = min([r.get_max_frame() for r in self._renderers
+                                   if r.get_max_frame() is not None])
         except ValueError:
             self._max_frame = 0
 
@@ -184,8 +151,8 @@ class MotionView(QtWidgets.QOpenGLWidget):
         if frame < self._max_frame:
             for r in self._renderers:
                 r.go_to_frame(frame)
+            self.update()
         print(frame)
-        self.update()
 
     def set_fps(self, fps):
         self._fps = fps
