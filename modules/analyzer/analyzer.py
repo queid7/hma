@@ -4,4 +4,8 @@ import bvh_loader as bl
 
 class HumanMotionAnalyzer:
     def __init__(self):
-        raise NotImplementedError
+        self.motions = list()
+
+    def set_motions(self, motions):
+        self.motions.extend(motions)
+

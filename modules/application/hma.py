@@ -15,8 +15,8 @@ class Hma:
     def __init__(self):
         self.motion_container = []
 
-    def add_motion(self, motion):
-        self.motion_container.append(motion)
+    def add_motion(self, motion_):
+        self.motion_container.append(motion_)
 
 
 class HmaWindow(QtWidgets.QMainWindow):
@@ -72,6 +72,15 @@ class HmaWindow(QtWidgets.QMainWindow):
         """
 
     def action_export_event(self, checked):
+        import analytic_ik as ai
+        import mm_math as mm
+        motion_ = self.hma.motion_container[0]
+        print(motion_.get_skeleton())
+        joint_index = motion_.get_skeleton().get_index_by_label("R.Foot")
+        for posture in motion_:
+            ai.ik_analytic(posture, joint_index, posture.get_global_p(joint_index) + mm.seq_to_vec3([300, 0, 200]),
+                           mm.seq_to_vec3([0, 1, 0]))
+#        ai.ik_analytic(self.hma.motion_container[0]: motion.JointPosture, joint_name_or_index, new_position, parent_joint_axis = None):
         print("action_export")
 
     def action_exit_event(self, checked):

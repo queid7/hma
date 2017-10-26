@@ -170,6 +170,9 @@ class JointPosture(Posture):
             gp = mm.p_to_rt(self._global_ts[self._skeleton.get_index(parent)])
         self.set_local_r(index, np.dot(gp.transpose(), global_r))
 
+    def get_global_p(self, index):
+        return mm.t_to_p(self._global_ts[index])
+
     def _update_global_ts(self):
         for i in range(len(self._updated)):
             if self._updated[i] is False:

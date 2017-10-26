@@ -40,6 +40,8 @@ class HmaUi(object):
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
+        self.menuAnalysis = QtWidgets.QMenu(self.menubar)
+        self.menuAnalysis.setObjectName("menuAnalysis")
         MainWindow.setMenuBar(self.menubar)
         self.actionNew = QtWidgets.QAction(MainWindow)
         self.actionNew.setObjectName("actionNew")
