@@ -26,7 +26,7 @@ class MotionView(QtWidgets.QOpenGLWidget):
         # initialize camera
         self.camera = Camera()
 #        self.camera.set_center(mm.seq_to_vec3([0., 200., 2000.]))
-        self.camera.set_center(mm.seq_to_vec3([2000., 0., 200.]))
+        self.camera.set_center(mm.seq_to_vec3([2500., 0., 400.]))
         self.camera.set_direction(mm.seq_to_vec3([-1., 0., 0.]))
         self.camera.set_up(mm.seq_to_vec3([0., 0., 1.]))
         self.camera.z_near = 10
