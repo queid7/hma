@@ -1,7 +1,7 @@
 import numpy as np
 
-import mm_math as mm
-import motion
+import hmath.mm_math as mm
+import motion.motion as motion
 
 
 # if parent_joint_axis is None: assume 3dof parent joint

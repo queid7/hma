@@ -3,9 +3,9 @@ import numpy as np
 from PyQt5.QtGui import QColor
 from OpenGL import GL, GLU
 
-import mm_math as mm
-import motion
-import draw_figure as df
+import hmath.mm_math as mm
+import motion.motion as motion
+import renderer.draw_figure as df
 
 DEFAULT_COLOR = (0., 1., 1., 1.)
 DEFAULT_LINK_WIDTH = 5

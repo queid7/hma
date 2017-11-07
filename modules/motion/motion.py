@@ -1,6 +1,7 @@
 import numpy as np
+import operator as op
 
-import mm_math as mm
+import hmath.mm_math as mm
 
 DEFAULT_FPS = 30
 
@@ -57,6 +58,49 @@ class Motion(list):
     def get_current_posture(self):
         return self[self._frame]
 
+    def get_position(self, index, frame):
+        return self[frame].get_position(index)
+
+    def get_positions(self, frame):
+        return self[frame].get_positions()
+
+    def get_velocity(self, index, frame0, frame1=None):
+        return self._get_derivative(index, frame0, frame1, self.get_position, op.sub)
+
+    def get_velocities(self, frame0, frame1=None):
+        return self._get_derivatives(frame0, frame1, self.get_positions, op.sub)
+
+    def get_acceleration(self, index, frame0, frame1=None):
+        return self._get_derivative(index, frame0, frame1, self.get_velocity, op.sub)
+
+    def get_accelerations(self, frame0, frame1=None):
+        return self._get_derivatives(frame0, frame1, self.get_velocities, op.sub)
+
+    def _get_finite_difference_frames(self, frame):
+        prev_frame = frame - 1 if frame > 0 else frame
+        next_frame = frame + 1 if frame < len(self) - 1 else frame
+        return prev_frame, next_frame
+
+    def _get_derivative(self, index, frame0, frame1, position_func, sub_func):
+        if frame0 == frame1 or len(self) == 1:
+            return mm.o_vec3()
+
+        if frame1 is None:
+            frame0, frame1 = self._get_finite_difference_frames(frame0)
+        p0 = position_func(index, frame0)
+        p1 = position_func(index, frame1)
+        return (self.fps / (frame1 - frame0)) * sub_func(p1, p0)
+
+    def _get_derivatives(self, frame0, frame1, positions_func, sub_func):
+        if frame0 == frame1 or len(self) == 1:
+            return [mm.o_vec3()] * len(positions_func(frame0))
+
+        if frame1 is None:
+            frame0, frame1 = self._get_finite_difference_frames(frame0)
+        positions0 = positions_func(frame0)
+        positions1 = positions_func(frame1)
+        return list(map(lambda p0, p1: (self.fps / (frame1 - frame0)) * sub_func(p1, p0), positions0, positions1))
+
 
 class JointMotion(Motion):
     def __init__(self, ls=list()):
@@ -82,6 +126,12 @@ class Posture:
         pass
 
     def blend(self, posture, t):
+        raise NotImplementedError
+
+    def get_position(self, index):
+        raise NotImplementedError
+
+    def get_positions(self):
         raise NotImplementedError
 
 
@@ -212,6 +262,12 @@ class JointPosture(Posture):
         blended_posture.set_local_rs(blended_local_rs)
         return blended_posture
 
+    def get_position(self, index):
+        return mm.t_to_p(self._global_ts[index])
+
+    def get_positions(self):
+        return [mm.t_to_p(t) for t in self._global_ts]
+
 
 class PointPosture(Posture):
     def blend(self, posture, t):
@@ -298,6 +354,9 @@ class Tree:
 
     def get_index_by_label(self, label):
         return self._nodes.index(self.get_node_by_label(label))
+
+    def get_label_by_index(self, index):
+        return self._nodes[index].label
 
     def get_parent_node_at(self, index):
         return self._nodes[index].get_parent()

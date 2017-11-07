@@ -3,11 +3,11 @@ import typing
 from PyQt5 import QtCore, QtGui, QtWidgets
 from OpenGL import GL, GLU
 
-import mm_math as mm
-import draw_figure as df
-import renderer
-import motion
-import bvh_loader as bl
+import hmath.mm_math as mm
+import renderer.draw_figure as df
+import renderer.renderer as renderer
+import motion.motion as motion
+import resource.bvh_loader as bl
 
 
 class MotionView(QtWidgets.QOpenGLWidget):

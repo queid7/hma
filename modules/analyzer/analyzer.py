@@ -1,5 +1,5 @@
 import sys
-import bvh_loader as bl
+import resource.bvh_loader as bl
 
 
 class HumanMotionAnalyzer:

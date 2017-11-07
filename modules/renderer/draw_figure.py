@@ -1,6 +1,6 @@
 from OpenGL import GL, GLU
 
-import mm_math as mm
+import hmath.mm_math as mm
 
 
 def make_figure(make_function):

@@ -1,6 +1,6 @@
 
 
-import motion
+import motion.motion as motion
 
 
 class Constraint:

@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import motion_player as mp
+import gui.motion_player as mp
 
 
 class HmaUi(object):

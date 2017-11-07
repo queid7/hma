@@ -3,11 +3,11 @@ import os
 import typing
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import hma_ui as hu
-import motion_view as mv
-import renderer
-import bvh_loader as bl
-import htr_loader as hl
+import application.hma_ui as hu
+import gui.motion_view as mv
+import renderer.renderer as renderer
+import resource.bvh_loader as bl
+import resource.htr_loader as hl
 import motion
 
 
@@ -50,6 +50,19 @@ class HmaWindow(QtWidgets.QMainWindow):
                 return
             self.hma.add_motion(joint_motion)
             self.findChild(mv.MotionView, "motion_view").add_renderer(renderer.JointMotionRender(joint_motion))
+
+        mot = self.hma.motion_container[0]
+        ske = mot.get_skeleton()
+        print([n.label for n in ske.get_nodes()])
+
+#        foot_index = ske.get_index_by_label("L.Foot")
+#        print(mot.get_position(foot_index, 0))
+#        print(mot.get_positions(0))
+#        print(mot.get_velocity(foot_index, 0, 120))
+#        print(mot.get_velocities(0, 120))
+#        print(mot.get_acceleration(foot_index, 0, 120))
+#        print(mot.get_accelerations(0, 120))
+
 
 #        joint_motion = bl.read_bvh_file("../../../../Research/Motions/cmuconvert-daz-01-09/01/01_02.bvh")
 #        joint_motion = bl.read_bvh_file("../../../../Research/Motions/MotionData/Trial001.bvh")

@@ -1,7 +1,7 @@
 import numpy as np
 
-import mm_math as mm
-import motion
+import hmath.mm_math as mm
+import motion.motion as motion
 
 
 def read_htr_file(htr_file_path, scale=1.0):
@@ -211,7 +211,7 @@ class Htr:
 
         print(range(len(self.property_dict["NumFrames"])))
 
-        joint_motion.fps = self.property_dict["DataFrameRate"]
+        joint_motion.fps = float(self.property_dict["DataFrameRate"])
         return joint_motion
 
     def to_joint_skeleton(self, scale=1.0):

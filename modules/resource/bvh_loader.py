@@ -1,7 +1,7 @@
 import numpy
 
-import mm_math as mm
-import motion
+import hmath.mm_math as mm
+import motion.motion as motion
 
 
 def read_bvh_file(bvh_file_path, scale=1.0, apply_root_offset=False):

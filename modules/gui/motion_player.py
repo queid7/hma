@@ -2,7 +2,7 @@ import numpy as np
 import typing
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import motion_view as mv
+import gui.motion_view as mv
 
 
 class MotionPlayer(QtWidgets.QWidget):
