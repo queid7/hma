@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 import application.hma_ui as hu
 import gui.motion_view as mv
+import hmath.mm_math as mm
 import renderer.renderer as renderer
 import resource.bvh_loader as bl
 import resource.htr_loader as hl
@@ -44,7 +45,11 @@ class HmaWindow(QtWidgets.QMainWindow):
             if ext == ".bvh":
                 joint_motion = bl.read_bvh_file(file_path[0])
             elif ext == ".htr":
-                joint_motion = hl.read_htr_file(file_path[0])
+                #joint_motion = hl.read_htr_file(file_path[0])
+                htr_motion = hl.read_htr_file_as_htr(file_path[0])
+                htr_motion.add_end_effector("L.Foot", mm.seq_to_vec3([100, 0, 0]))
+                joint_motion = htr_motion.to_joint_motion()
+
             else:
                 print("invalid file extension")
                 return

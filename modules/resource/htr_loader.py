@@ -195,6 +195,22 @@ class Htr:
             if self.children[i] is child:
                 return self.parents[i]
 
+    def add_end_effector(self, joint_name, translation):
+        joint = self.joint_dict[joint_name]
+        child_joint = Htr.Joint(joint_name + "_end_effector")
+        self.joint_dict[joint_name + "_end_effector"] = child_joint
+        self.parents.append(joint)
+        self.children.append(child_joint)
+
+        child_joint.base_bone_length = 1.0
+
+        total_frames = self.get_num_frame()
+        child_joint.translations = [translation] * total_frames
+        child_joint.euler_rotations = [mm.o_vec3()] * total_frames
+        child_joint.sfs = [1.0] * total_frames
+
+        child_joint.data_names = joint.data_names.copy()
+
     # ===========================================================================
     # Htr -> JointMotion
     # ===========================================================================
@@ -209,7 +225,7 @@ class Htr:
             joint_posture.update_global_ts()
             joint_motion.append(joint_posture)
 
-        print(range(len(self.property_dict["NumFrames"])))
+        # print(range(len(self.property_dict["NumFrames"])))
 
         joint_motion.fps = float(self.property_dict["DataFrameRate"])
         return joint_motion

@@ -273,6 +273,12 @@ class PointPosture(Posture):
     def blend(self, posture, t):
         raise NotImplementedError
 
+    def get_position(self, index):
+        raise NotImplementedError
+
+    def get_positions(self):
+        raise NotImplementedError
+
 
 # ==================================
 # Tree
